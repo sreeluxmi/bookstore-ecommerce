@@ -1,0 +1,55 @@
+{% extends 'main.html' %}
+{% block content %}
+{% load static %}
+
+<div class="detail-body-card">
+    <div class="detail-img-container">
+        <div class="add-to-fav">
+            <button id="add-to-fav-btn"><img src="https://img.icons8.com/ios/30/null/hearts--v1.png"/></button>
+        </div>
+      <img class="card-img-detail" src={{object.image_url}} alt="book image">
+    </div>
+    <div class="col-md-8">
+        <div class="book-details-container">
+            <h4 class="card-titlee">{{object.title}}</h4>
+            <div  class="rating">
+               <p >{{object.star}}<img src="https://img.icons8.com/color/18/000000/filled-star--v1.png"/></p>
+            </div>
+
+            <h3 style="color:gray;">Author : {{object.author}}</h3>
+            <h4 style="font-size:24px;margin-top:2px;">₹ {{object.price}}</h4>
+        </div>
+        <div>
+             {% if object.availability is True %}
+            <div>
+                 <li class="text-primaryy">Available !</li><br>
+                <div>
+                 <a href="{% url 'checkout'%}" class="buy-now" role="button">Buy Now</a><br>
+                </div>
+                <div style="margin-top: 40px;">
+                    <input type="hidden" id="current-user" value="{{ user.username }}">
+                    <button class="update-cart" data-product={{object.id}} data-action="add">Add to cart</button>
+                </div>
+            </div>
+            {% else %}
+            <div>
+                 <li  class="text-dangerr">Out of stock !</li><br>
+                <div>
+                  <strike style="color:white;"><a href="" class="buy-now" role="button">Buy Now</a><br></strike>
+                </div>
+                <div style="margin-top: 40px;">
+                    <button class="update-cart" data-product={{product.id}} data-action="add">Add to cart</button>
+                </div>
+            </div>
+             {% endif %}
+        </div>
+        <div class="book-description">
+            <h3>Description</h3>
+            <p>{{object.description}}</p>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+

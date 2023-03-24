@@ -1,0 +1,31 @@
+{% extends 'main.html' %}
+{% block content %}
+{% load static %}
+
+  <div class="intro">
+      <h1 class="img-caption">Wear the old coat, and buy a new book.</h1>
+      <img class="home-image" src="{% static 'workspace-with-book-glasses-apple.jpg' %}" alt="book" >
+  </div>
+
+
+  <div class="grid-container">
+      {% for each in object_list %}
+      <div class="col">
+          <div class="card" style="width: 16rem;" >
+             <img class="card-img" src={{each.image_url}} alt="book image">
+             <div class="card-body">
+               <h5 class="card-title">{{each.title}}</h5>
+               <p>₹{{each.price}}</p>
+                 {% if each.availability is True %}
+                   <li class="text-primary">Available</li><br>
+                 {% else %}
+                   <li  class="text-danger">Out of stock !</li><br>
+                 {% endif %}
+               <a href="{% url 'details' each.id %}" class="view-btn">View</a>
+             </div>
+          </div>
+      </div>
+      {% endfor %}
+  </div>
+
+{% endblock content %}

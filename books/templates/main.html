@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>main</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+</head>
+<body>
+  <div class="nav-bar">
+    <ul>
+       <li><a href="">LOGO</a></li>
+       <li><a href="{% url 'home'%}">Home</a></li>
+       <li>
+           <form class="form-inline" action="{% url 'search' %}">
+                <input type="search" placeholder="Search" class="search" name="search" id="search" autocomplete="on">
+                <button class="search-btn" type="submit" >Search</button>
+           </form>
+       </li>
+        <li>
+            <button type="button" class="account">Account</button>
+        </li>
+    </ul>
+  </div>
+
+{% block content %}
+
+
+{% endblock %}
+
+<div class="Footer">
+
+</div>
+
+</body>
+</html>

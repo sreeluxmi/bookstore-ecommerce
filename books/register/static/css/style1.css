@@ -1,0 +1,50 @@
+body{
+margin :0;
+font-family : roboto,sans;
+}
+.form-container {
+border:none;
+border-radius: 5px;
+text-align: center;
+width: 350px;
+margin: 130px 0 0 600px;
+}
+
+.form-container input{
+width : 330px;
+height : 30px;
+border : 1px solid #8080809e;
+border-radius: 5px;
+margin-top : 20px;
+}
+
+input::placeholder {
+color: gray;
+font-style: italic;
+}
+.form-container input:focus {
+outline: none;
+border-color: #fafafa;
+box-shadow: 0 0 5px #fafafa;
+}
+
+
+.form-submit-button{
+width : 330px;
+height : 35px;
+border : none;
+margin-top : 30px;
+border-radius : 5px;
+cursor : pointer;
+margin-bottom: 20px;
+background-color :#00695c;
+color : white;
+}
+.form-submit-button:hover{
+background-color :#00695ccc;
+}
+
+.login-link {
+color :black;
+text-decoration :none;
+}

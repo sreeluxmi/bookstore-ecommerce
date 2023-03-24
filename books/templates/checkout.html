@@ -1,0 +1,135 @@
+{% extends 'main.html' %}
+{% block content %}
+{% load static %}
+
+
+<section class="cart-total">
+  <div>
+    <button><a href="{% url 'cart' %}">Back to cart</a></button>
+  </div>
+  <hr>
+   <h3>Order summary</h3>
+	<hr>
+  {% for item in items %}
+  <div class="cart-row">
+		<div style="flex:2"><img class="row-image" src="{{item.product.image_url}}"></div>
+		<div style="flex:2"><p>{{item.product.name}}</p></div>
+		<div style="flex:1"><p>{{item.product.price}}</p></div>
+		<div style="flex:1">
+			<p class="quantity">{{item.quantity}}</p>
+		</div>
+		<div style="flex:1"><p>{{item.get_total}}</p></div>
+	     <br>
+  </div>
+  {% endfor %}
+  	    <h4>Items : {{order.get_cart_items}}</h4><br>
+	    <h4>Total : {{order.get_cart_total}}</h4>
+</section>
+<div class="box-element" id="form-wrapper">
+    <form id="form">
+        <div id="user-info">
+			<div class="form-field">
+                <input required class="form-control" type="text" name="name" placeholder="Name..">
+			</div>
+			<div class="form-field">
+				<input required class="form-control" type="email" name="email" placeholder="Email..">
+			</div>
+		</div>
+
+		<div id="shipping-info">
+			<hr>
+			<p>Shipping Information:</p>
+			<hr>
+			<div class="form-field">
+				<input class="form-control" type="text" name="address" placeholder="Address..">
+			</div>
+			<div class="form-field">
+				<input class="form-control" type="text" name="city" placeholder="City..">
+			</div>
+			<div class="form-field">
+				<input class="form-control" type="text" name="state" placeholder="State..">
+			</div>
+			<div class="form-field">
+				<input class="form-control" type="text" name="zipcode" placeholder="Zip code..">
+			</div>
+			<div class="form-field">
+				<input class="form-control" type="text" name="country" placeholder="Zip code..">
+			</div>
+		</div>
+            <hr>
+			<input id="form-button" class="btn btn-success btn-block" type="submit" value="Continue">
+	</form>
+</div>
+	<div id="paypal-button-container"></div>
+
+<!--Paypal payments-->
+
+	<div id="paypal-button-container" class="card-card-body"></div>
+
+	<script
+		src="https://www.paypal.com/sdk/js?client-id=AaDbFCTAdi8NU4o-x6oOaBiLLoybkvO8w3xVZ2LgPAiTRwT4dDJu5u_ZecP9OtLTDvr7GZtZk_HuM3kq&currency=USD"></script>
+
+	<script>
+
+		function getCookie(name) {
+			var cookieValue = null;
+			if (document.cookie && document.cookie !== '') {
+				var cookies = document.cookie.split(';');
+				for (var i = 0; i < cookies.length; i++) {
+					var cookie = cookies[i].trim();
+					// Does this cookie string begin with the name we want?
+					if (cookie.substring(0, name.length + 1) === (name + '=')) {
+						cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+						break;
+					}
+				}
+			}
+			return cookieValue;
+		}
+		var csrftoken = getCookie('csrftoken');
+
+		var total = '{{object.price}}'
+		var productId = '{{object.id}}'
+
+		function completeOrder() {
+			var url = ""
+
+			fetch(url, {
+				method: 'POST',
+				headers: {
+					'content-type': 'application/json',
+					'X-CSRFToken': csrftoken,
+				},
+				body: JSON.stringify({ 'productId': productId })
+			})
+		}
+
+
+
+		// Render the PayPal button into #paypal-button-container
+		paypal.Buttons({
+
+			// Set up the transaction
+			createOrder: function (data, actions) {
+				return actions.order.create({
+					purchase_units: [{
+						amount: {
+							value: total
+						}
+					}]
+				});
+			},
+
+			// Finalize the transaction
+			onApprove: function (data, actions) {
+				return actions.order.capture().then(function (details) {
+					// Show a success message to the buyer
+					completeOrder()
+					alert('Transaction completed by ' + details.payer.name.given_name + '!');
+				});
+			}
+
+
+		}).render('#paypal-button-container');
+	</script>
+{% endblock content %}

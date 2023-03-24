@@ -1,0 +1,44 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<section class="cart-total">
+  <div>
+    <button><a href="{% url 'home' %}">Continue shoppings</a></button>
+  </div>
+  <hr>
+  <div class="cart-total1">
+      <p>Items : <strong>{{order.get_cart_items}}</strong></p>
+      <p>Total : <strong>{{order.get_cart_total}}</strong></p>
+      <button><a href="{% url 'checkout' %}">Checkout</a></button>
+  </div>
+</section>
+
+<div class="box-element">
+
+				<div class="cart-row">
+					<div style="flex:2"></div>
+					<div style="flex:2"><strong>Item</strong></div>
+					<div style="flex:1"><strong>Price</strong></div>
+					<div style="flex:1"><strong>Quantity</strong></div>
+					<div style="flex:1"><strong>Total</strong></div>
+				</div>
+                {% for item in items %}
+				<div class="cart-row">
+					<div style="flex:2"><img class="row-image" src="{{item.product.image_url}}"></div>
+					<div style="flex:2"><p>{{item.product.title}}</p></div>
+					<div style="flex:1"><p>{{item.product.price}}</p></div>
+					<div style="flex:1">
+						<div class="quantity">
+							<img src="https://img.icons8.com/metro/18/null/sort-left.png"/>
+							<p style="margin-left:5px;margin-right:5px;" class="quantity">{{item.quantity}}</p>
+							<img src="https://img.icons8.com/metro/18/null/sort-right.png"/>
+						</div>
+					</div>
+					<div style="flex:1"><p>{{item.get_total}}</p></div>
+				</div>
+	            {% endfor %}
+
+</div>
+
+{% endblock content %}
